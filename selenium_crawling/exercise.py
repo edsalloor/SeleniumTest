@@ -6,6 +6,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from locators import MainPageLocators
+
+
 class EspolCatalogSearch():
     fac_names = []
     car_names = []
@@ -57,10 +60,12 @@ class EspolCatalogSearch():
                     xrcs_writer.writerow(['--------------- '+self.car_names[i][j]+' ---------------'])
                     xrcs_writer.writerow([])
 
-                    cur_page = page.MainPage(self.driver)      # Load the curriculum page of each career
-                    cur_page.click_elective_subject()          # Click on elective courses to display the table
+                    cur_page = page.MainPage(self.driver)       # Load the curriculum page of each career
+                    cur_page.click_elective_subject()           # Click on elective courses to display the subjects
+                    WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(MainPageLocators.LEN_SELECTOR))
+                    cur_page.click_len_rows_selector()          # Select the max length of visible rows
                     WebDriverWait(self.driver, 60).until(EC.presence_of_element_located((By.ID, "tbl_materias_complementarias")))
-                    elec_sub_dic = cur_page.get_elective_subjects() #Reading elements
+                    elec_sub_dic = cur_page.get_elective_subjects()     #Reading elements
 
                     for k,v in elec_sub_dic.items():
                         print(k,v)

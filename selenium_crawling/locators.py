@@ -11,7 +11,7 @@ class MainPageLocators(object):
     SUBJECT_TR = (By.XPATH, "//table[@id='tbl_materias_complementarias']/tbody/tr")
 
     #Location for elective subject tables
-    PAGE_BUTTONS = (By.XPATH,"//div[@id='tbl_materias_complementarias_paginate']/ul/li[position() >1 and position()< last()]")
+    LEN_SELECTOR = (By.XPATH,"//div[@id='tbl_materias_complementarias_length']//select[@name='tbl_materias_complementarias_length']")
 
 class SearchResultsPageLocators(object):
     """A class for search results locators. All search results locators should come here"""
@@ -24,3 +24,4 @@ class SearchResultsPageLocators(object):
     SUBJECT_TD2 = (By.XPATH, "./td[2]")
 
     #Locators relative to PAGE_BUTTONS
+    LAST_OPTION = (By.XPATH, "./option[last()]")

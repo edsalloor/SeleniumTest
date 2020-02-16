@@ -1,4 +1,3 @@
-from element import BasePageElement
 from locators import MainPageLocators, SearchResultsPageLocators
 
 
@@ -56,6 +55,13 @@ class MainPage(BasePage):
         """Triggers the search"""
         element = self.driver.find_element(*MainPageLocators.ELECTIVE_COURSE_A)
         element.click()
+
+    def click_len_rows_selector(self):
+        """Triggers the search"""
+        selector = self.driver.find_element(*MainPageLocators.LEN_SELECTOR)
+        selector.click()
+        last_opt = selector.find_element(*SearchResultsPageLocators.LAST_OPTION)
+        last_opt.click()
 
     def get_elective_subjects(self):
         subject_dic = {}

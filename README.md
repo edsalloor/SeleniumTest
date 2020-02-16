@@ -12,7 +12,6 @@ In the main thread ChromeDriverManager installs a chrome driver if it does't fin
 - selenium
 - webdriver_manager
 - csv
-- page
 
 ### Python interpreter:
   3.7

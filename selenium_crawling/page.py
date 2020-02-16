@@ -2,7 +2,6 @@ from element import BasePageElement
 from locators import MainPageLocators, SearchResultsPageLocators
 
 
-
 class BasePage(object):
     """Base class to initialize the base page that will be called from all pages"""
 
@@ -61,8 +60,15 @@ class MainPage(BasePage):
     def get_elective_subjects(self):
         subject_dic = {}
         subjects_tr = self.driver.find_elements(*MainPageLocators.SUBJECT_TR)
+
         for tr in subjects_tr:
-            code = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD1).text
-            name = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD2).text
-            subject_dic[code] = name
+            try:
+                td1 = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD1)
+                td2 = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD2)
+                code = td1.get_attribute("textContent").strip()
+                name = td2.get_attribute("textContent").strip()
+                subject_dic[code] = name
+            except:
+                print("\033[93mSome elective subjects may have not been obtained...\033[0m")
         return subject_dic
+

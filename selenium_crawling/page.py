@@ -53,3 +53,16 @@ class MainPage(BasePage):
             self.careers_codes.append(codes)
             self.careers_curriculum.append(curriculums)
 
+    def click_elective_subject(self):
+        """Triggers the search"""
+        element = self.driver.find_element(*MainPageLocators.ELECTIVE_COURSE_A)
+        element.click()
+
+    def get_elective_subjects(self):
+        subject_dic = {}
+        subjects_tr = self.driver.find_elements(*MainPageLocators.SUBJECT_TR)
+        for tr in subjects_tr:
+            code = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD1).text
+            name = tr.find_element(*SearchResultsPageLocators.SUBJECT_TD2).text
+            subject_dic[code] = name
+        return subject_dic

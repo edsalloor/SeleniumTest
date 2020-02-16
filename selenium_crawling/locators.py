@@ -7,9 +7,15 @@ class MainPageLocators(object):
     FACULTY_DIV = (By.XPATH, "//div[starts-with(@id,'headingF')]/..")
 
     #Locators for curriculum page
+    SUBJECT_TR = (By.XPATH, "//table[@id='tbl_materias_complementarias']/tbody/tr")
+    ELECTIVE_COURSE_A = (By.XPATH, "//p[@id='informacion']/a[.='Elective course']")
 
 class SearchResultsPageLocators(object):
     """A class for search results locators. All search results locators should come here"""
     FACULTY_STRONG = (By.XPATH, ".//strong")
     FACULTY_LI = (By.XPATH, ".//strong[contains(text(),'Undergraduate Programs')]/following::ul[1]//li")
     LINK = (By.XPATH, ".//a")
+
+    #Locators relative to SUBJECT_TR
+    SUBJECT_TD1 = (By.XPATH, "./td[1]")
+    SUBJECT_TD2 = (By.XPATH, "./td[2]")

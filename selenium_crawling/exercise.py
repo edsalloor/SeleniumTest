@@ -17,30 +17,52 @@ class EspolCatalogSearch():
         main_page = page.MainPage(self.driver)
 
         main_page.get_faculties_div()
-        fac_names = main_page.faculties_names
-        car_names = main_page.careers_names
-        car_codes = main_page.careers_codes
-        car_curris = main_page.careers_curriculum
+        self.fac_names = main_page.faculties_names
+        self.car_names = main_page.careers_names
+        self.car_codes = main_page.careers_codes
+        self.car_curris = main_page.careers_curriculum
 
         file_name = 'test_excercise.csv'
         with open('test_excercise.csv', mode='w', encoding='utf-8', newline='') as exercise_file:
             xrcs_writer = csv.writer(exercise_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             xrcs_writer.writerow(['career_name_en', 'career_code', 'faculty_name', 'link_to_career_curriculum'])
 
-            for i in range(0, len(fac_names)):
-                for j in range(0, len(car_names[i])):
-                    xrcs_writer.writerow([car_names[i][j], car_codes[i][j], fac_names[i], car_curris[i][j]])
+            for i in range(0, len(self.fac_names)):
+                for j in range(0, len(self.car_names[i])):
+                    xrcs_writer.writerow([self.car_names[i][j], self.car_codes[i][j], self.fac_names[i], self.car_curris[i][j]])
 
         exercise_file.close()
         self.driver.close()
         print("The file '"+ file_name + "' has been created")
 
-"""
-        for i in range(0, len(fac_names)):
-            for j in range(0, len(car_names[i])):
-                self.driver.get(car_curris[i][j])
-"""
+    def bonus_exercise(self):
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+
+        file_name = 'bonus_excercise.csv'
+        with open('bonus_excercise.csv', mode='w', encoding='utf-8', newline='') as bonus_file:
+            xrcs_writer = csv.writer(bonus_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            xrcs_writer.writerow(['elective_subject_name_en', 'elective_subject_code', 'career_name_en'])
+
+            for i in range(0, len(self.fac_names)):
+                for j in range(0, len(self.car_curris[i])):
+                    self.driver.get(self.car_curris[i][j])
+
+                    print("Reading elective courses of " + self.car_names + "...")
+
+                    cur_page = page.MainPage(self.driver)      # Load the curriculum page of each career
+                    cur_page.click_elective_subject()          # Click on elective courses to display the table
+                    elec_sub_dic = cur_page.get_elective_subjects() #Reading elements
+
+                    for k,v in elec_sub_dic.items():
+                        print(k,v)
+                        xrcs_writer.writerow([v, k, self.car_names[i][j]])
+
+        bonus_file.close()
+        self.driver.close()
+        print("The file '" + file_name + "' has been created")
 
 
 if __name__ == "__main__":
-    EspolCatalogSearch().test_exercise()
+    search = EspolCatalogSearch()
+    search.test_exercise()
+    search.bonus_exercise()
